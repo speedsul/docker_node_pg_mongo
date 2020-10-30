@@ -1,0 +1,55 @@
+version: '3'
+services:
+  node_web:
+   
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: node_web
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./:/usr/src
+    ports:
+      - 3000:3000
+      # - 9229:9229
+    environment:
+      POSTGRES_HOST: postgres:$DB_HOST@postgres:5432
+      PORT: 3000
+    command: node_modules/.bin/nodemon index.js
+      
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks:
+      - postgres-compose-network
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: root
+    networks:
+      - postgres-compose-network
+
+  postgres_admin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "ismael@teste.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-compose-network
+
+networks: 
+  postgres-compose-network:
+    driver: bridge

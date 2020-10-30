@@ -1,0 +1,21 @@
+{
+  "name": "aula_node_postgres",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^7.8.1",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "sequelize-cli": "^6.2.0"
+  },
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon -L ./src/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
